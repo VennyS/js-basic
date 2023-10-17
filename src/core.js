@@ -34,7 +34,10 @@ function factorial(n) {
 
 //Напишите функцию, которая определяет, является ли число двойкой, возведенной в степень
 function isBinary(n) {
+    if (n === 0) return false;
 
+    while (n % 2 === 0) n = n / 2
+    return n === 1;
 }
 
 //Напишите функцию, которая находит N-е число Фибоначчи
@@ -85,7 +88,14 @@ function getOperationFn(initialValue, operatorFn) {
  * console.log(generator()); // 7
  * console.log(generator()); // 9
  */
-function sequence(start, step) { }
+function sequence(start = 0, step = 1) {
+    let counter = start;
+    return function () {
+        const result = counter;
+        counter += step;
+        return result;
+    };
+}
 
 /**
  * Напишите функцию deepEqual, которая принимает два значения
@@ -101,7 +111,52 @@ function sequence(start, step) { }
  * deepEqual({arr: [22, 33], text: 'text'}, {arr: [22, 33], text: 'text'}) // true
  * deepEqual({arr: [22, 33], text: 'text'}, {arr: [22, 3], text: 'text2'}) // false
  */
-function deepEqual(firstObject, secondObject) { }
+function deepEqual(firstObject, secondObject) {
+    function deepEqual(firstObject, secondObject) {
+        if (firstObject === secondObject) {
+            return true;
+        }
+
+        if (typeof firstObject !== typeof secondObject) {
+            return false;
+        }
+
+        if (typeof firstObject === "object") {
+            const firstObjectKeys = Object.keys(firstObject);
+            const secondObjectKeys = Object.keys(secondObject);
+
+            if (firstObjectKeys.length !== secondObjectKeys.length) {
+                return false;
+            }
+
+            for (const key of firstObjectKeys) {
+                if (!secondObject.hasOwnProperty(key)) {
+                    return false;
+                }
+
+                if (!deepEqual(firstObject[key], secondObject[key])) {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        if (typeof firstObject === "string") {
+            return firstObject === secondObject;
+        }
+
+        if (typeof firstObject === "number") {
+            return firstObject === secondObject;
+        }
+
+        if (typeof firstObject === "boolean") {
+            return firstObject === secondObject;
+        }
+
+        return false;
+    }
+}
 
 module.exports = {
     isInteger,
