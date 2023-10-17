@@ -19,8 +19,8 @@ function sumTo(n) {
 
 //Напишите функцию, считающую сумму чисел до заданного используя рекурсию
 function recSumTo(n) {
-    if (n === 1) return 1
-    else return n + recSumTo(n - 1)
+    if (n === 1) return 1;
+    else return n + recSumTo(n - 1);
 }
 
 //Напишите функцию, считающую факториал заданного числа
@@ -35,8 +35,7 @@ function factorial(n) {
 //Напишите функцию, которая определяет, является ли число двойкой, возведенной в степень
 function isBinary(n) {
     if (n === 0) return false;
-
-    while (n % 2 === 0) n = n / 2
+    while (n % 2 === 0) n = n / 2;
     return n === 1;
 }
 
@@ -48,7 +47,7 @@ function fibonacci(n) {
     for (let i = 2; i <= n; i++) {
         const temp = a + b;
         a = b;
-        b = temp
+        b = temp;
     }
     return b;
 }
@@ -67,9 +66,9 @@ function fibonacci(n) {
 function getOperationFn(initialValue, operatorFn) {
     if (!operatorFn) return (newValue) => initialValue;
     return (newValue) => {
-        operatorFn(initialValue, newValue);
+        initialValue = operatorFn(initialValue, newValue);
         return initialValue;
-    }
+    };
 }
 
 /**
@@ -112,50 +111,24 @@ function sequence(start = 0, step = 1) {
  * deepEqual({arr: [22, 33], text: 'text'}, {arr: [22, 3], text: 'text2'}) // false
  */
 function deepEqual(firstObject, secondObject) {
-    function deepEqual(firstObject, secondObject) {
-        if (firstObject === secondObject) {
+    if (firstObject === secondObject) return true;
+
+    if (firstObject === null || secondObject === null ||
+        typeof secondObject !== 'object' || typeof firstObject !== 'object') {
+        if (Number.isNaN(firstObject) && Number.isNaN(secondObject))
             return true;
-        }
-
-        if (typeof firstObject !== typeof secondObject) {
-            return false;
-        }
-
-        if (typeof firstObject === "object") {
-            const firstObjectKeys = Object.keys(firstObject);
-            const secondObjectKeys = Object.keys(secondObject);
-
-            if (firstObjectKeys.length !== secondObjectKeys.length) {
-                return false;
-            }
-
-            for (const key of firstObjectKeys) {
-                if (!secondObject.hasOwnProperty(key)) {
-                    return false;
-                }
-
-                if (!deepEqual(firstObject[key], secondObject[key])) {
-                    return false;
-                }
-            }
-
-            return true;
-        }
-
-        if (typeof firstObject === "string") {
-            return firstObject === secondObject;
-        }
-
-        if (typeof firstObject === "number") {
-            return firstObject === secondObject;
-        }
-
-        if (typeof firstObject === "boolean") {
-            return firstObject === secondObject;
-        }
-
         return false;
     }
+
+    const firstKeys = Object.keys(firstObject);
+    const secondKeys = Object.keys(secondObject);
+
+    if (firstKeys.length !== secondKeys.length) return false;
+
+    for (let key of firstKeys) {
+        if (!secondKeys.includes(key) || !deepEqual(firstObject[key], secondObject[key])) return false;
+    }
+    return true;
 }
 
 module.exports = {
